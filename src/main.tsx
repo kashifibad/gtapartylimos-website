@@ -1565,6 +1565,17 @@ function useWeb3Form(subject: string) {
 
 function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: boolean; defaultEvent?: string }) {
   const { status, submit } = useWeb3Form('GTA Party Limos - Quick Quote Request');
+  const adjustPassengers = (event: React.MouseEvent<HTMLButtonElement>, delta: number) => {
+    const input = event.currentTarget.closest('.number-stepper')?.querySelector<HTMLInputElement>('input');
+    if (!input) return;
+    if (delta > 0) {
+      input.stepUp();
+    } else {
+      input.stepDown();
+    }
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
   return (
     <form className={`quote-form ${compact ? 'compact' : ''}`} onSubmit={submit}>
       <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
@@ -1586,7 +1597,15 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         <label>Pickup time<input type="time" name="pickup_time" required /></label>
       </div>
       <div className="form-row two">
-        <label>Passengers<input name="passengers" inputMode="numeric" placeholder="Guest count" /></label>
+        <label className="passenger-label">Passengers
+          <span className="number-stepper">
+            <input className="passenger-input" type="number" name="passengers" min="1" inputMode="numeric" placeholder="Guest count" />
+            <span className="stepper-buttons">
+              <button type="button" aria-label="Increase passengers" onClick={(event) => adjustPassengers(event, 1)} />
+              <button type="button" aria-label="Decrease passengers" onClick={(event) => adjustPassengers(event, -1)} />
+            </span>
+          </span>
+        </label>
         <label>Vehicle preference
           <select name="vehicle_preference" defaultValue="">
             <option value="">No preference yet</option>
