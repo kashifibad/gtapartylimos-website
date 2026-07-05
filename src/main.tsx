@@ -663,6 +663,13 @@ function FastBookingSection() {
 }
 
 function Hero({ navigate }: { navigate: (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => void }) {
+  const heroHighlights = [
+    { icon: MapPin, label: 'GTA-wide coverage' },
+    { icon: CarFront, label: 'Premium fleet' },
+    { icon: ShieldCheck, label: 'Professional chauffeurs' },
+    { icon: Clock3, label: 'Fast quotes' },
+  ];
+
   return (
     <section className="hero">
       <div className="hero-bg" />
@@ -691,8 +698,8 @@ function Hero({ navigate }: { navigate: (href: string) => (event: React.MouseEve
             </a>
           </div>
           <div className="hero-trust">
-            {['GTA-wide coverage', 'Premium fleet', 'Professional chauffeurs', 'Fast quotes'].map((item) => (
-              <span key={item}><Check aria-hidden="true" /> {item}</span>
+            {heroHighlights.map(({ icon: IconComponent, label }) => (
+              <span key={label}><IconComponent aria-hidden="true" /> {label}</span>
             ))}
           </div>
         </div>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="gold" cx="30%" cy="24%" r="78%">
+      <stop offset="0%" stop-color="#fff4c9"/>
+      <stop offset="55%" stop-color="#d8b56d"/>
+      <stop offset="100%" stop-color="#9c6c27"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="#050506"/>
+  <circle cx="32" cy="32" r="25" fill="url(#gold)"/>
+  <text x="32" y="38" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="600" fill="#120d04">GPL</text>
+</svg>
