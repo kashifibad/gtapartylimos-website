@@ -252,8 +252,15 @@ svg {
   border-radius: 50%;
   color: #120d04;
   background: radial-gradient(circle at 30% 25%, #fff4c9, var(--gold) 55%, #9c6c27);
-  font-weight: 600;
+  overflow: hidden;
   box-shadow: 0 14px 34px rgba(216, 181, 109, 0.18);
+}
+
+.brand-bus-mark {
+  width: 50px;
+  height: 50px;
+  transform: translateX(-2px);
+  filter: drop-shadow(0 7px 9px rgba(0, 0, 0, 0.3));
 }
 
 .brand strong {

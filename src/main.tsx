@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useId, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowRight,
@@ -524,7 +524,7 @@ function Header({
       </div>
       <div className="container nav-shell">
         <a className="brand" href="/" onClick={navigate('/')}>
-          <span className="brand-mark">GPL</span>
+          <BrandMark />
           <span>
             <strong>GTA Party Limos</strong>
             <small>Luxury transportation</small>
@@ -593,7 +593,7 @@ function Header({
             <X aria-hidden="true" />
           </button>
           <a className="brand" href="/" onClick={(event) => { navigate('/')(event); close(); }}>
-            <span className="brand-mark">GPL</span>
+            <BrandMark />
             <span>
               <strong>GTA Party Limos</strong>
               <small>Luxury transportation</small>
@@ -1418,6 +1418,49 @@ function GoogleMark() {
   );
 }
 
+function BrandMark() {
+  const id = useId().replace(/:/g, '');
+  const bodyGradient = `${id}-bus-body`;
+  const windowGradient = `${id}-bus-windows`;
+  const glowGradient = `${id}-bus-glow`;
+
+  return (
+    <span className="brand-mark" aria-hidden="true">
+      <svg className="brand-bus-mark" viewBox="0 0 64 64">
+        <defs>
+          <linearGradient id={bodyGradient} x1="6" y1="13" x2="58" y2="48" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#070707" />
+            <stop offset="0.48" stopColor="#1d1b18" />
+            <stop offset="1" stopColor="#050505" />
+          </linearGradient>
+          <linearGradient id={windowGradient} x1="16" y1="19" x2="49" y2="31" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#fff7d8" />
+            <stop offset="0.55" stopColor="#d8b56d" />
+            <stop offset="1" stopColor="#7a541f" />
+          </linearGradient>
+          <radialGradient id={glowGradient} cx="49" cy="37" r="19" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#fff6cf" stopOpacity="0.92" />
+            <stop offset="0.38" stopColor="#d8b56d" stopOpacity="0.42" />
+            <stop offset="1" stopColor="#d8b56d" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <path d="M47 28.5c5.5 1.4 10 4.6 13.4 8.8" fill="none" stroke="#fff0b8" strokeOpacity="0.36" strokeWidth="2.6" strokeLinecap="round" />
+        <path d="M48 35.8h13.5" fill="none" stroke="#fff4cf" strokeOpacity="0.62" strokeWidth="2.8" strokeLinecap="round" />
+        <circle cx="49.6" cy="36.4" r="15.5" fill={`url(#${glowGradient})`} />
+        <path d="M8.7 24.6c1.4-5.8 4.9-9.5 10.4-10.7h20.1c6.5 0 10.6 3.1 12.5 9.4l2.7 9.1c.8 2.8.2 5.2-1.8 7.2-1.4 1.4-3.2 2.1-5.2 2.1H13.8c-3.7 0-6.6-2.8-6.6-6.3v-6.8c0-1.4.5-2.8 1.5-4Z" fill={`url(#${bodyGradient})`} />
+        <path d="M12.7 24.8c1.2-4.1 3.4-6.1 6.8-6.1h17.9c4.4 0 7.2 2 8.5 6.1l1.5 4.7H11.3l1.4-4.7Z" fill={`url(#${windowGradient})`} />
+        <path d="M25.8 18.7v10.8M36.8 18.9v10.4M16.3 29.5h30.9" fill="none" stroke="#17120a" strokeOpacity="0.42" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M9.4 34.1h34.5c3.8 0 6.8 1.1 8.8 3.4-.8 2.6-2.8 4.2-5.4 4.2H13.8c-2.4 0-4.4-1.2-5.6-3.1-.8-1.3-.4-3 .9-3.8l.3-.7Z" fill="#070707" />
+        <path d="M13.2 34.8h22.2" fill="none" stroke="#d8b56d" strokeOpacity="0.55" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M43.7 34.7h6.4c1.6 0 2.9 1.2 2.9 2.7h-6.8c-1.5 0-2.6-1.2-2.5-2.7Z" fill="#fff3c5" />
+        <circle cx="17.4" cy="41" r="4.4" fill="#0a0a0a" stroke="#d8b56d" strokeOpacity="0.62" strokeWidth="1.4" />
+        <circle cx="43.1" cy="41" r="4.4" fill="#0a0a0a" stroke="#d8b56d" strokeOpacity="0.62" strokeWidth="1.4" />
+        <path d="M6.4 31.4c2.4-1.2 5-1.8 7.8-1.8" fill="none" stroke="#fff4cf" strokeOpacity="0.32" strokeWidth="1.3" strokeLinecap="round" />
+      </svg>
+    </span>
+  );
+}
+
 function NotFoundPage({ navigate }: { navigate: (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => void }) {
   return (
     <PageShell eyebrow="404" title="That route is not parked here." text="The page could not be found. Head back to the homepage or start a quote request.">
@@ -1630,7 +1673,7 @@ function Footer({ navigate }: { navigate: (href: string) => (event: React.MouseE
       <div className="container footer-grid">
         <div>
           <a className="brand" href="/" onClick={navigate('/')}>
-            <span className="brand-mark">GPL</span>
+            <BrandMark />
             <span>
               <strong>GTA Party Limos</strong>
               <small>Luxury transportation</small>
