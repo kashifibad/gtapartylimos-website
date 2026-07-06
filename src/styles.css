@@ -444,7 +444,7 @@ svg {
   background:
     linear-gradient(90deg, rgba(5, 5, 6, 0.96) 0%, rgba(5, 5, 6, 0.76) 38%, rgba(5, 5, 6, 0.24) 68%, rgba(5, 5, 6, 0.62) 100%),
     linear-gradient(180deg, rgba(5, 5, 6, 0.15), #050506 96%),
-    url('/assets/img/hero-limo.png') center right / cover no-repeat;
+    url('/assets/img/hero-limo-v2.jpg') center right / cover no-repeat;
 }
 
 .hero::before {
@@ -1634,7 +1634,7 @@ details p {
   padding: clamp(34px, 7vw, 76px);
   background:
     linear-gradient(90deg, rgba(5, 5, 6, 0.95), rgba(5, 5, 6, 0.5)),
-    url('/assets/img/wedding-limo.png') center / cover no-repeat;
+    url('/assets/img/wedding-limo-v2.jpg') center / cover no-repeat;
   box-shadow: var(--shadow);
 }
 
@@ -1651,7 +1651,7 @@ details p {
   border-bottom: 1px solid rgba(216, 181, 109, 0.14);
   background:
     linear-gradient(90deg, rgba(5, 5, 6, 0.97), rgba(5, 5, 6, 0.65)),
-    url('/assets/img/hero-limo.png') center right / cover no-repeat;
+    url('/assets/img/hero-limo-v2.jpg') center right / cover no-repeat;
 }
 
 .page-hero .container {
@@ -2183,7 +2183,7 @@ summary,
   .hero-bg {
     background:
       linear-gradient(180deg, rgba(5, 5, 6, 0.74), rgba(5, 5, 6, 0.98) 68%),
-      url('/assets/img/hero-limo.png') center top / cover no-repeat;
+      url('/assets/img/hero-limo-v2.jpg') center top / cover no-repeat;
   }
 
   .hero-content {

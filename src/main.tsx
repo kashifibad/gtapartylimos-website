@@ -99,7 +99,7 @@ const fleet: FleetItem[] = [
     name: 'Black Stretch Limousines',
     slug: 'stretch-limos',
     passengers: 'Up to 10 guests',
-    image: '/assets/img/hero-limo.png',
+    image: '/assets/img/hero-limo-v2.jpg',
     idealFor: 'Weddings, proms, anniversaries, dinners, and VIP nights out.',
     features: ['Leather seating', 'Privacy partition', 'Premium sound', 'Chilled bottled water'],
   },
@@ -107,7 +107,7 @@ const fleet: FleetItem[] = [
     name: 'SUV Limos',
     slug: 'suv-limos',
     passengers: 'Up to 14 guests',
-    image: '/assets/img/chauffeur-airport.png',
+    image: '/assets/img/chauffeur-airport-v2.jpg',
     idealFor: 'Airport transfers, corporate groups, concerts, and sporting events.',
     features: ['Commanding curb presence', 'Luggage space', 'Chauffeur door service', 'Smooth long-distance ride'],
   },
@@ -115,7 +115,7 @@ const fleet: FleetItem[] = [
     name: 'Party Limos',
     slug: 'party-limos',
     passengers: 'Up to 18 guests',
-    image: '/assets/img/party-bus-interior.png',
+    image: '/assets/img/party-bus-interior-v2.jpg',
     idealFor: 'Birthdays, bachelorettes, bachelor parties, and nightlife routes.',
     features: ['LED ambience', 'Wraparound lounge seating', 'Bluetooth audio', 'Celebration-ready cabin'],
   },
@@ -123,7 +123,7 @@ const fleet: FleetItem[] = [
     name: 'Party Buses',
     slug: 'party-buses',
     passengers: 'Up to 30 guests',
-    image: '/assets/img/party-bus-interior.png',
+    image: '/assets/img/party-bus-interior-v2.jpg',
     idealFor: 'Large groups, winery tours, wedding shuttles, and club crawls.',
     features: ['Spacious aisle', 'Group-friendly layout', 'Multiple stops', 'Premium onboard lighting'],
   },
@@ -138,7 +138,7 @@ const services: Service[] = [
     detail:
       'Choose a clean, chauffeur-driven limo for dinner reservations, proposals, milestone celebrations, client arrivals, or a refined night in the city. We match vehicle size, route timing, and pickup details so the entire ride feels effortless.',
     icon: CarFront,
-    image: '/assets/img/hero-limo.png',
+    image: '/assets/img/hero-limo-v2.jpg',
     inclusions: ['Fast quote confirmation', 'Clean premium vehicles', 'Professional chauffeurs', 'Point-to-point or hourly service'],
     proof: 'A polished choice for date nights, hotel pickups, galas, and private celebrations.',
   },
@@ -150,7 +150,7 @@ const services: Service[] = [
     detail:
       'Your group gets the fun of a private lounge and the structure of professional transportation. We help plan the pickup window, route, club stops, dinner timing, and safe ride home so the night stays moving.',
     icon: PartyPopper,
-    image: '/assets/img/party-bus-interior.png',
+    image: '/assets/img/party-bus-interior-v2.jpg',
     inclusions: ['LED lighting', 'Premium sound', 'Multi-stop itineraries', 'Bachelor, bachelorette, and birthday packages'],
     proof: 'Built for birthdays, club crawls, concerts, and every group that wants the night to start at pickup.',
   },
@@ -162,7 +162,7 @@ const services: Service[] = [
     detail:
       'Wedding day transportation has to feel beautiful and run precisely. We coordinate pickup timing, photo stops, ceremony arrivals, reception transfers, and late-night exits with a calm professional approach.',
     icon: Heart,
-    image: '/assets/img/wedding-limo.png',
+    image: '/assets/img/wedding-limo-v2.jpg',
     inclusions: ['Bride and groom service', 'Wedding party vehicles', 'Family guest shuttles', 'Photo-location routing'],
     proof: 'Ideal for venues across Toronto, Mississauga, Vaughan, Markham, Brampton, and the wider GTA.',
   },
@@ -174,7 +174,7 @@ const services: Service[] = [
     detail:
       'Prom should feel special, not stressful. We support clear pickup plans, passenger counts, route details, timing, and driver communication for a safe and impressive arrival.',
     icon: Sparkles,
-    image: '/assets/img/hero-limo.png',
+    image: '/assets/img/hero-limo-v2.jpg',
     inclusions: ['Group pickup planning', 'Photo-ready arrivals', 'Parent communication', 'Clean, inspected vehicles'],
     proof: 'Popular for Toronto, Peel, York, Durham, and Halton school celebrations.',
   },
@@ -187,7 +187,7 @@ const services: Service[] = [
     detail:
       'From the first pickup to the final drop-off, we make group movement easy. Tell us the guest count and stops, and we will recommend the right vehicle and booking window.',
     icon: Users,
-    image: '/assets/img/party-bus-interior.png',
+    image: '/assets/img/party-bus-interior-v2.jpg',
     inclusions: ['Club and lounge routes', 'Dinner-to-event timing', 'Winery and casino trips', 'Safe late-night returns'],
     proof: 'A premium way to keep the group together without rideshare chaos.',
   },
@@ -199,7 +199,7 @@ const services: Service[] = [
     detail:
       'Whether it is an intimate limo for a special dinner or a party bus for a full group, we make the birthday feel elevated from the moment the door opens.',
     icon: Gem,
-    image: '/assets/img/party-bus-interior.png',
+    image: '/assets/img/party-bus-interior-v2.jpg',
     inclusions: ['Milestone packages', 'Restaurant and club stops', 'Concert and arena transfers', 'Custom itineraries'],
     proof: 'Great for Sweet 16s, 19th birthdays, 30ths, 40ths, 50ths, and private VIP nights.',
   },
@@ -211,7 +211,7 @@ const services: Service[] = [
     detail:
       'Business travel needs punctuality, discretion, and a clean vehicle. Our corporate transportation supports airport pickups, client hosting, event transfers, and executive schedules across the GTA.',
     icon: BriefcaseBusiness,
-    image: '/assets/img/chauffeur-airport.png',
+    image: '/assets/img/chauffeur-airport-v2.jpg',
     inclusions: ['Executive airport pickups', 'Client transportation', 'Conference shuttles', 'Hourly standby service'],
     proof: 'Designed for teams that need the ride to feel premium and run on time.',
   },
@@ -223,7 +223,7 @@ const services: Service[] = [
     detail:
       'Start or end the trip cleanly with a professional airport transfer. We service Pearson, Billy Bishop, FBO/private aviation, hotels, residences, and corporate offices.',
     icon: Plane,
-    image: '/assets/img/chauffeur-airport.png',
+    image: '/assets/img/chauffeur-airport-v2.jpg',
     inclusions: ['Airport pickups and drop-offs', 'Luggage-friendly vehicles', 'Early morning service', 'Corporate accounts'],
     proof: 'A refined choice for travelers who want comfort, timing, and a smooth curbside experience.',
   },
@@ -235,7 +235,7 @@ const services: Service[] = [
     detail:
       'Skip parking, coordination, and surge pricing. We handle the pickup plan, venue timing, after-event wait windows, and multi-stop routes for a polished night out.',
     icon: MoonStar,
-    image: '/assets/img/hero-limo.png',
+    image: '/assets/img/hero-limo-v2.jpg',
     inclusions: ['Scotiabank Arena and Rogers Centre', 'Concerts and festivals', 'Theatre and dinner routes', 'VIP club arrivals'],
     proof: 'Perfect for groups that want the city experience to feel seamless.',
   },
@@ -398,10 +398,10 @@ const faqs = [
 ];
 
 const gallery = [
-  { src: '/assets/img/hero-limo.png', label: 'Nightlife stretch limo arrival' },
-  { src: '/assets/img/party-bus-interior.png', label: 'Premium party bus interior' },
-  { src: '/assets/img/wedding-limo.png', label: 'Wedding limousine experience' },
-  { src: '/assets/img/chauffeur-airport.png', label: 'Corporate and airport service' },
+  { src: '/assets/img/hero-limo-v2.jpg', label: 'Nightlife stretch limo arrival' },
+  { src: '/assets/img/party-bus-interior-v2.jpg', label: 'Premium party bus interior' },
+  { src: '/assets/img/wedding-limo-v2.jpg', label: 'Wedding limousine experience' },
+  { src: '/assets/img/chauffeur-airport-v2.jpg', label: 'Corporate and airport service' },
 ];
 
 const routeTitles: Record<string, string> = {
@@ -864,7 +864,7 @@ function LuxuryExperience({ navigate }: { navigate: (href: string) => (event: Re
   return (
     <section className="experience">
       <div className="container experience-grid">
-        <img src="/assets/img/party-bus-interior.png" alt="Luxury party bus interior with lounge seating" />
+        <img src="/assets/img/party-bus-interior-v2.jpg" alt="Luxury party bus interior with lounge seating" />
         <div>
           <p className="eyebrow">The luxury experience</p>
           <h2>Private lounge energy, black-car discipline.</h2>
@@ -899,7 +899,7 @@ function ChauffeurSection() {
             and the small details that make a luxury ride feel natural.
           </p>
         </div>
-        <img src="/assets/img/chauffeur-airport.png" alt="Professional chauffeur airport limo service" />
+        <img src="/assets/img/chauffeur-airport-v2.jpg" alt="Professional chauffeur airport limo service" />
       </div>
     </section>
   );
@@ -1210,7 +1210,7 @@ function AboutPage({ navigate }: { navigate: (href: string) => (event: React.Mou
       text="GTA Party Limos helps guests quickly connect with high-quality limousine, party bus, wedding, prom, corporate, airport, and event transportation across Toronto and the GTA."
     >
       <div className="about-grid">
-        <img src="/assets/img/hero-limo.png" alt="Luxury limousine in Toronto at night" />
+        <img src="/assets/img/hero-limo-v2.jpg" alt="Luxury limousine in Toronto at night" />
         <div>
           <h2>Designed for fast decisions and elevated expectations.</h2>
           <p>
