@@ -826,6 +826,13 @@ textarea {
   background-size: 18px 18px;
 }
 
+.quote-form input[type="date"]::-webkit-calendar-picker-indicator,
+.quote-form input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  filter: brightness(0) invert(1);
+  cursor: pointer;
+}
+
 .passenger-label {
   position: relative;
 }
