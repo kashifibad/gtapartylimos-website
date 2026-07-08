@@ -927,8 +927,9 @@ textarea:focus {
 }
 
 .consent {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: start;
   gap: 10px;
   color: var(--muted);
   font-size: 0.78rem;
@@ -940,7 +941,7 @@ textarea:focus {
   min-width: 18px;
   height: 18px;
   min-height: 18px;
-  margin-top: 2px;
+  margin: 1px 0 0;
 }
 
 .form-button {

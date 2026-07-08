@@ -42,6 +42,7 @@ declare global {
       apiKey: string;
       placesEnabled?: boolean;
     };
+    gm_authFailure?: () => void;
     google?: any;
   }
 }
@@ -71,28 +72,49 @@ type Service = {
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 
 let googleMapsLoadPromise: Promise<void> | null = null;
+let googleMapsAuthFailed = false;
 
 function loadGooglePlaces() {
   const mapsConfig = window.GTA_PARTY_LIMOS_GOOGLE_MAPS;
 
   if (!mapsConfig?.placesEnabled || !mapsConfig.apiKey) return null;
+  if (googleMapsAuthFailed) return null;
   if (window.google?.maps?.places) return Promise.resolve();
   if (googleMapsLoadPromise) return googleMapsLoadPromise;
 
   googleMapsLoadPromise = new Promise((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>('script[data-google-places="gta-party-limos"]');
     if (existing) {
-      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('load', () => {
+        if (googleMapsAuthFailed || !window.google?.maps?.places) {
+          reject(new Error('Google Maps Places unavailable'));
+          return;
+        }
+        resolve();
+      }, { once: true });
       existing.addEventListener('error', () => reject(new Error('Google Maps failed to load')), { once: true });
       return;
     }
+
+    const previousAuthFailure = window.gm_authFailure;
+    window.gm_authFailure = () => {
+      googleMapsAuthFailed = true;
+      previousAuthFailure?.();
+      reject(new Error('Google Maps authorization failed'));
+    };
 
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(mapsConfig.apiKey)}&libraries=places`;
     script.async = true;
     script.defer = true;
     script.dataset.googlePlaces = 'gta-party-limos';
-    script.onload = () => resolve();
+    script.onload = () => {
+      if (googleMapsAuthFailed || !window.google?.maps?.places) {
+        reject(new Error('Google Maps Places unavailable'));
+        return;
+      }
+      resolve();
+    };
     script.onerror = () => reject(new Error('Google Maps failed to load'));
     document.head.appendChild(script);
   });
