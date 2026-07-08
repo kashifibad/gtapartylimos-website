@@ -200,6 +200,120 @@ function usePlacesAutocomplete(inputRef: React.RefObject<HTMLInputElement>, acti
   }, [active, inputRef]);
 }
 
+function getFormFieldValue(form: HTMLFormElement, name: string) {
+  const field = form.elements.namedItem(name);
+  if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement) {
+    return field.value.trim();
+  }
+  return '';
+}
+
+function setHiddenFormField(form: HTMLFormElement, name: string, value: string) {
+  let field = form.elements.namedItem(name) as HTMLInputElement | null;
+
+  if (!(field instanceof HTMLInputElement)) {
+    field = document.createElement('input');
+    field.type = 'hidden';
+    field.name = name;
+    form.appendChild(field);
+  }
+
+  field.value = value;
+}
+
+function formatDistance(kilometers: number) {
+  if (!Number.isFinite(kilometers) || kilometers <= 0) return '';
+  return `${kilometers.toFixed(kilometers >= 10 ? 1 : 2)} km`;
+}
+
+function calculateDrivingDistanceMeters(origin: string, destination: string) {
+  return new Promise<number>((resolve, reject) => {
+    if (!window.google?.maps?.DirectionsService || !window.google.maps.TravelMode) {
+      reject(new Error('Google directions unavailable'));
+      return;
+    }
+
+    const service = new window.google.maps.DirectionsService();
+    service.route(
+      {
+        origin,
+        destination,
+        travelMode: window.google.maps.TravelMode.DRIVING,
+      },
+      (result: any, status: string) => {
+        if (status !== 'OK') {
+          reject(new Error(`Google directions failed: ${status}`));
+          return;
+        }
+
+        const meters = result?.routes?.[0]?.legs?.reduce((total: number, leg: any) => {
+          return total + Number(leg?.distance?.value || 0);
+        }, 0);
+
+        if (!meters) {
+          reject(new Error('Google directions returned no distance'));
+          return;
+        }
+
+        resolve(meters);
+      },
+    );
+  });
+}
+
+async function populateDistanceFields(form: HTMLFormElement) {
+  if (!form.elements.namedItem('pickup_location') || !form.elements.namedItem('dropoff_location')) return;
+
+  const pickup = getFormFieldValue(form, 'pickup_location');
+  const dropoff = getFormFieldValue(form, 'dropoff_location');
+  const returnTripRequired = getFormFieldValue(form, 'return_trip_required');
+  const returnAddress = getFormFieldValue(form, 'return_address');
+
+  setHiddenFormField(form, 'estimated_outbound_distance', '');
+  setHiddenFormField(form, 'estimated_return_distance', '');
+  setHiddenFormField(form, 'estimated_total_distance', '');
+  setHiddenFormField(form, 'estimated_distance_note', '');
+
+  if (!pickup || !dropoff) {
+    setHiddenFormField(form, 'estimated_distance_note', 'Not calculated - pickup or drop-off location was missing.');
+    return;
+  }
+
+  const loader = loadGooglePlaces();
+  if (!loader) {
+    setHiddenFormField(form, 'estimated_distance_note', 'Not calculated - Google Maps was unavailable.');
+    return;
+  }
+
+  try {
+    await loader;
+
+    const outboundMeters = await calculateDrivingDistanceMeters(pickup, dropoff);
+    let returnMeters = 0;
+
+    if (returnTripRequired === 'Yes' && returnAddress) {
+      returnMeters = await calculateDrivingDistanceMeters(dropoff, returnAddress);
+    }
+
+    const outboundKm = outboundMeters / 1000;
+    const returnKm = returnMeters / 1000;
+    const totalKm = outboundKm + returnKm;
+
+    setHiddenFormField(form, 'estimated_outbound_distance', formatDistance(outboundKm));
+    setHiddenFormField(form, 'estimated_return_distance', returnKm ? formatDistance(returnKm) : 'No return distance calculated');
+    setHiddenFormField(form, 'estimated_total_distance', formatDistance(totalKm));
+    setHiddenFormField(
+      form,
+      'estimated_distance_note',
+      returnTripRequired === 'Yes'
+        ? 'Estimated driving distance includes outbound and return-trip routing.'
+        : 'Estimated driving distance includes outbound routing only.',
+    );
+  } catch {
+    setHiddenFormField(form, 'estimated_distance_note', 'Not calculated - Google Maps could not estimate this route.');
+  }
+}
+
 const contact = {
   phone: '647-222-7300',
   phoneHref: 'tel:6472227300',
@@ -1659,13 +1773,14 @@ function useWeb3Form(subject: string) {
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
+    setStatus('loading');
+    await populateDistanceFields(form);
     const formData = new FormData(form);
     formData.append('access_key', getAccessKey());
     formData.append('subject', subject);
     formData.append('from_name', String(formData.get('name') || 'GTA Party Limos Website'));
     formData.append('replyto', String(formData.get('email') || ''));
 
-    setStatus('loading');
     try {
       const response = await fetch(WEB3FORMS_ENDPOINT, { method: 'POST', body: formData });
       const data = (await response.json()) as { success?: boolean };
@@ -1705,6 +1820,10 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
   return (
     <form className={`quote-form ${compact ? 'compact' : ''}`} onSubmit={submit} onReset={() => setReturnTripRequired('')}>
       <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
+      <input type="hidden" name="estimated_outbound_distance" />
+      <input type="hidden" name="estimated_return_distance" />
+      <input type="hidden" name="estimated_total_distance" />
+      <input type="hidden" name="estimated_distance_note" />
       <div className="form-row two">
         <label>Name<input name="name" required placeholder="Your name" /></label>
         <label>Phone<input name="phone" required placeholder="Phone number" /></label>
@@ -1794,6 +1913,10 @@ function BookingForm() {
   return (
     <form className="quote-form full-form" onSubmit={submit} onReset={() => setReturnTripRequired('')}>
       <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
+      <input type="hidden" name="estimated_outbound_distance" />
+      <input type="hidden" name="estimated_return_distance" />
+      <input type="hidden" name="estimated_total_distance" />
+      <input type="hidden" name="estimated_distance_note" />
       <div className="form-row two">
         <label>Name<input name="name" required placeholder="Your name" /></label>
         <label>Phone<input name="phone" required placeholder="Phone number" /></label>
