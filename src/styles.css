@@ -959,6 +959,39 @@ textarea:focus {
   color: #ff9b9b;
 }
 
+.pac-container {
+  z-index: 9999;
+  border: 1px solid rgba(216, 181, 109, 0.22);
+  border-radius: 8px;
+  margin-top: 8px;
+  overflow: hidden;
+  background: #101011;
+  box-shadow: var(--shadow);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.pac-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 12px;
+  color: rgba(247, 241, 229, 0.72);
+  cursor: pointer;
+}
+
+.pac-item:first-child {
+  border-top: 0;
+}
+
+.pac-item:hover,
+.pac-item-selected {
+  background: rgba(216, 181, 109, 0.14);
+}
+
+.pac-item-query,
+.pac-matched {
+  color: var(--ivory);
+  font-weight: 500;
+}
+
 .section-intro {
   max-width: 780px;
   margin-bottom: 36px;

@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowRight,
@@ -38,6 +38,11 @@ type Icon = LucideIcon;
 declare global {
   interface Window {
     GTA_PARTY_LIMOS_WEB3FORMS_ACCESS_KEY?: string;
+    GTA_PARTY_LIMOS_GOOGLE_MAPS?: {
+      apiKey: string;
+      placesEnabled?: boolean;
+    };
+    google?: any;
   }
 }
 
@@ -64,6 +69,75 @@ type Service = {
 };
 
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+
+let googleMapsLoadPromise: Promise<void> | null = null;
+
+function loadGooglePlaces() {
+  const mapsConfig = window.GTA_PARTY_LIMOS_GOOGLE_MAPS;
+
+  if (!mapsConfig?.placesEnabled || !mapsConfig.apiKey) return null;
+  if (window.google?.maps?.places) return Promise.resolve();
+  if (googleMapsLoadPromise) return googleMapsLoadPromise;
+
+  googleMapsLoadPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector<HTMLScriptElement>('script[data-google-places="gta-party-limos"]');
+    if (existing) {
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error('Google Maps failed to load')), { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(mapsConfig.apiKey)}&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.dataset.googlePlaces = 'gta-party-limos';
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Google Maps failed to load'));
+    document.head.appendChild(script);
+  });
+
+  return googleMapsLoadPromise;
+}
+
+function usePlacesAutocomplete(inputRef: React.RefObject<HTMLInputElement>, active = true) {
+  useEffect(() => {
+    let autocomplete: any;
+    let listener: any;
+
+    const setup = async () => {
+      if (!active) return;
+      const loader = loadGooglePlaces();
+      if (!loader || !inputRef.current) return;
+
+      try {
+        await loader;
+        if (!inputRef.current || !window.google?.maps?.places) return;
+
+        autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
+          componentRestrictions: { country: 'ca' },
+          fields: ['formatted_address', 'name'],
+          types: ['geocode', 'establishment'],
+        });
+
+        listener = autocomplete.addListener('place_changed', () => {
+          const place = autocomplete.getPlace();
+          const value = place.formatted_address || place.name;
+          if (value && inputRef.current) inputRef.current.value = value;
+        });
+      } catch {
+        // Manual address entry remains available if Google Places cannot load.
+      }
+    };
+
+    setup();
+
+    return () => {
+      if (listener?.remove) listener.remove();
+      if (autocomplete) autocomplete.unbindAll?.();
+    };
+  }, [active, inputRef]);
+}
 
 const contact = {
   phone: '647-222-7300',
@@ -1547,6 +1621,15 @@ function useWeb3Form(subject: string) {
 
 function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: boolean; defaultEvent?: string }) {
   const { status, submit } = useWeb3Form('GTA Party Limos - Quick Quote Request');
+  const [returnTripRequired, setReturnTripRequired] = useState('');
+  const pickupRef = useRef<HTMLInputElement>(null);
+  const destinationRef = useRef<HTMLInputElement>(null);
+  const returnAddressRef = useRef<HTMLInputElement>(null);
+
+  usePlacesAutocomplete(pickupRef);
+  usePlacesAutocomplete(destinationRef);
+  usePlacesAutocomplete(returnAddressRef, returnTripRequired === 'Yes');
+
   const adjustPassengers = (event: React.MouseEvent<HTMLButtonElement>, delta: number) => {
     const input = event.currentTarget.closest('.number-stepper')?.querySelector<HTMLInputElement>('input');
     if (!input) return;
@@ -1559,7 +1642,7 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
   };
 
   return (
-    <form className={`quote-form ${compact ? 'compact' : ''}`} onSubmit={submit}>
+    <form className={`quote-form ${compact ? 'compact' : ''}`} onSubmit={submit} onReset={() => setReturnTripRequired('')}>
       <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
       <div className="form-row two">
         <label>Name<input name="name" required placeholder="Your name" /></label>
@@ -1579,6 +1662,27 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         <label>Pickup time<input type="time" name="pickup_time" required /></label>
       </div>
       <div className="form-row two">
+        <label>Service duration
+          <select name="service_duration" required defaultValue="">
+            <option value="">Hours needed</option>
+            <option>Point-to-point / transfer</option>
+            <option>2 hours</option>
+            <option>3 hours</option>
+            <option>4 hours</option>
+            <option>5 hours</option>
+            <option>6+ hours</option>
+            <option>Not sure yet</option>
+          </select>
+        </label>
+        <label>Return trip required
+          <select name="return_trip_required" required value={returnTripRequired} onChange={(event) => setReturnTripRequired(event.target.value)}>
+            <option value="">Select option</option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </label>
+      </div>
+      <div className="form-row two">
         <label className="passenger-label">Passengers
           <span className="number-stepper">
             <input className="passenger-input" type="number" name="passengers" min="1" inputMode="numeric" placeholder="Guest count" />
@@ -1596,9 +1700,12 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         </label>
       </div>
       <div className="form-row two">
-        <label>Pickup location<input name="pickup_location" placeholder="Address, venue, hotel, or airport" /></label>
-        <label>Destination / itinerary<input name="itinerary" placeholder="Drop-off, stops, or route details" /></label>
+        <label>Pickup location<input ref={pickupRef} name="pickup_location" autoComplete="street-address" placeholder="Address, venue, hotel, or airport" /></label>
+        <label>Drop-off location<input ref={destinationRef} name="dropoff_location" autoComplete="street-address" placeholder="Drop-off address, venue, or airport" /></label>
       </div>
+      {returnTripRequired === 'Yes' && (
+        <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+      )}
       {!compact && <label>Message<textarea name="message" placeholder="Anything else we should know?" /></label>}
       <label className="consent">
         <input type="checkbox" name="consent" required />
@@ -1614,8 +1721,17 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
 
 function BookingForm() {
   const { status, submit } = useWeb3Form('GTA Party Limos - Full Booking Request');
+  const [returnTripRequired, setReturnTripRequired] = useState('');
+  const pickupRef = useRef<HTMLInputElement>(null);
+  const destinationRef = useRef<HTMLInputElement>(null);
+  const returnAddressRef = useRef<HTMLInputElement>(null);
+
+  usePlacesAutocomplete(pickupRef);
+  usePlacesAutocomplete(destinationRef);
+  usePlacesAutocomplete(returnAddressRef, returnTripRequired === 'Yes');
+
   return (
-    <form className="quote-form full-form" onSubmit={submit}>
+    <form className="quote-form full-form" onSubmit={submit} onReset={() => setReturnTripRequired('')}>
       <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
       <div className="form-row two">
         <label>Name<input name="name" required placeholder="Your name" /></label>
@@ -1628,10 +1744,34 @@ function BookingForm() {
       </div>
       <div className="form-row two">
         <label>Pickup time<input type="time" name="pickup_time" required /></label>
-        <label>Number of passengers<input name="passengers" required inputMode="numeric" placeholder="Example: 12" /></label>
+        <label>Number of passengers<input name="passengers" type="number" min="1" required inputMode="numeric" placeholder="Example: 12" /></label>
       </div>
-      <label>Pickup location<input name="pickup_location" required placeholder="Address, venue, hotel, airport, or city" /></label>
-      <label>Drop-off location or itinerary<textarea name="dropoff_or_itinerary" required placeholder="Drop-off address, extra stops, venues, timing, and return details" /></label>
+      <div className="form-row two">
+        <label>Service duration
+          <select name="service_duration" required defaultValue="">
+            <option value="">Hours needed</option>
+            <option>Point-to-point / transfer</option>
+            <option>2 hours</option>
+            <option>3 hours</option>
+            <option>4 hours</option>
+            <option>5 hours</option>
+            <option>6+ hours</option>
+            <option>Not sure yet</option>
+          </select>
+        </label>
+        <label>Return trip required
+          <select name="return_trip_required" required value={returnTripRequired} onChange={(event) => setReturnTripRequired(event.target.value)}>
+            <option value="">Select option</option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </label>
+      </div>
+      <label>Pickup location<input ref={pickupRef} name="pickup_location" required autoComplete="street-address" placeholder="Address, venue, hotel, airport, or city" /></label>
+      <label>Drop-off location<input ref={destinationRef} name="dropoff_location" required autoComplete="street-address" placeholder="Drop-off address, venue, airport, or city" /></label>
+      {returnTripRequired === 'Yes' && (
+        <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+      )}
       <div className="form-row two">
         <label>Vehicle preference<select name="vehicle_preference" defaultValue=""><option value="">No preference yet</option>{fleet.map((item) => <option key={item.slug}>{item.name}</option>)}</select></label>
         <label>Occasion<input name="occasion" placeholder="Wedding, prom, birthday, airport, etc." /></label>
