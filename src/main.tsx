@@ -126,6 +126,8 @@ function usePlacesAutocomplete(inputRef: React.RefObject<HTMLInputElement>, acti
   useEffect(() => {
     let autocomplete: any;
     let listener: any;
+    let lastKnownScrollY = window.scrollY;
+    let removeInteractionGuards: (() => void) | undefined;
 
     const setup = async () => {
       if (!active) return;
@@ -142,10 +144,46 @@ function usePlacesAutocomplete(inputRef: React.RefObject<HTMLInputElement>, acti
           types: ['geocode', 'establishment'],
         });
 
+        const rememberScrollPosition = () => {
+          lastKnownScrollY = window.scrollY;
+        };
+
+        const rememberAutocompleteClick = (event: Event) => {
+          const target = event.target as Element | null;
+          if (target?.closest('.pac-container')) rememberScrollPosition();
+        };
+
+        inputRef.current.addEventListener('focus', rememberScrollPosition);
+        inputRef.current.addEventListener('input', rememberScrollPosition);
+        inputRef.current.addEventListener('keydown', rememberScrollPosition);
+        document.addEventListener('mousedown', rememberAutocompleteClick, true);
+        document.addEventListener('touchstart', rememberAutocompleteClick, true);
+
+        removeInteractionGuards = () => {
+          inputRef.current?.removeEventListener('focus', rememberScrollPosition);
+          inputRef.current?.removeEventListener('input', rememberScrollPosition);
+          inputRef.current?.removeEventListener('keydown', rememberScrollPosition);
+          document.removeEventListener('mousedown', rememberAutocompleteClick, true);
+          document.removeEventListener('touchstart', rememberAutocompleteClick, true);
+        };
+
         listener = autocomplete.addListener('place_changed', () => {
+          const targetScrollY = lastKnownScrollY;
           const place = autocomplete.getPlace();
           const value = place.formatted_address || place.name;
-          if (value && inputRef.current) inputRef.current.value = value;
+          if (value && inputRef.current) {
+            inputRef.current.value = value;
+
+            const keepAddressFieldInPlace = () => {
+              inputRef.current?.focus({ preventScroll: true });
+              window.scrollTo({ top: targetScrollY, left: window.scrollX, behavior: 'auto' });
+            };
+
+            window.requestAnimationFrame(() => {
+              keepAddressFieldInPlace();
+              window.requestAnimationFrame(keepAddressFieldInPlace);
+            });
+          }
         });
       } catch {
         // Manual address entry remains available if Google Places cannot load.
@@ -155,6 +193,7 @@ function usePlacesAutocomplete(inputRef: React.RefObject<HTMLInputElement>, acti
     setup();
 
     return () => {
+      removeInteractionGuards?.();
       if (listener?.remove) listener.remove();
       if (autocomplete) autocomplete.unbindAll?.();
     };
