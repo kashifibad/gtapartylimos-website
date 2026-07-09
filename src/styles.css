@@ -609,38 +609,37 @@ svg {
 
 .hero-card {
   position: relative;
-  padding-top: 36px;
+  isolation: isolate;
 }
 
 .rating-card {
   position: absolute;
-  top: 36px;
+  top: 0;
   left: 50%;
-  z-index: 8;
+  z-index: 12;
   display: inline-flex;
   width: auto;
-  min-width: min(285px, calc(100% - 28px));
+  min-width: min(316px, calc(100% - 24px));
   align-items: center;
   justify-content: center;
   gap: 12px;
   transform: translate(-50%, -50%);
-  border: 1px solid rgba(241, 213, 154, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 999px;
-  padding: 11px 17px;
+  padding: 12px 18px;
   background:
-    linear-gradient(135deg, rgba(216, 181, 109, 0.18), rgba(255, 255, 255, 0.06)),
-    rgba(8, 8, 9, 0.94);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 241, 219, 0.94)),
+    #ffffff;
   box-shadow:
-    0 18px 44px rgba(0, 0, 0, 0.42),
-    0 0 0 6px rgba(216, 181, 109, 0.045),
-    0 0 34px rgba(216, 181, 109, 0.18);
-  backdrop-filter: blur(18px);
+    0 22px 54px rgba(0, 0, 0, 0.48),
+    0 0 0 8px rgba(216, 181, 109, 0.13),
+    0 0 34px rgba(216, 181, 109, 0.28);
 }
 
 .rating-card span {
-  color: var(--muted);
+  color: #2b2924;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -648,7 +647,7 @@ svg {
 .rating-card strong {
   display: inline-flex;
   margin-top: 0;
-  color: var(--ivory);
+  color: #14120f;
   font-size: 1.24rem;
   line-height: 1;
 }
@@ -785,7 +784,8 @@ svg {
 .quote-form.compact {
   position: relative;
   z-index: 1;
-  padding: 44px 20px 20px;
+  padding: 58px 20px 20px;
+  border-color: rgba(216, 181, 109, 0.36);
 }
 
 .form-row {
@@ -2289,6 +2289,29 @@ summary,
   .quote-form.compact,
   .full-form {
     padding: 18px;
+  }
+
+  .hero-card .quote-form.compact {
+    padding: 58px 18px 18px;
+  }
+
+  .hero-card .rating-card {
+    gap: 8px;
+    min-width: min(300px, calc(100% - 18px));
+    padding: 10px 13px;
+  }
+
+  .hero-card .rating-card span {
+    font-size: 0.7rem;
+  }
+
+  .hero-card .rating-card strong {
+    font-size: 1.05rem;
+  }
+
+  .hero-card .rating-card .solid-star {
+    width: 12px;
+    height: 12px;
   }
 
   .fleet-detail-card,
