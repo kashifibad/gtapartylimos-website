@@ -1845,12 +1845,10 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         <label>Service duration
           <select name="service_duration" required defaultValue="">
             <option value="">Hours needed</option>
-            <option>Point-to-point / transfer</option>
-            <option>2 hours</option>
-            <option>3 hours</option>
-            <option>4 hours</option>
-            <option>5 hours</option>
-            <option>6+ hours</option>
+            {Array.from({ length: 24 }, (_, index) => index + 1).map((hours) => (
+              <option key={hours}>{hours} {hours === 1 ? 'hour' : 'hours'}</option>
+            ))}
+            <option>24+ hours</option>
             <option>Not sure yet</option>
           </select>
         </label>
@@ -1884,7 +1882,17 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         <label>Drop-off location<input ref={destinationRef} name="dropoff_location" autoComplete="street-address" placeholder="Drop-off address, venue, or airport" /></label>
       </div>
       {returnTripRequired === 'Yes' && (
-        <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+        <div className="form-row two">
+          <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+          <label>Driver standby needed
+            <select name="driver_standby_required" required defaultValue="">
+              <option value="">Select option</option>
+              <option>No - pickup at a later scheduled time</option>
+              <option>Yes - keep driver and vehicle on standby</option>
+              <option>Not sure yet</option>
+            </select>
+          </label>
+        </div>
       )}
       {!compact && <label>Message<textarea name="message" placeholder="Anything else we should know?" /></label>}
       <label className="consent">
@@ -1934,12 +1942,10 @@ function BookingForm() {
         <label>Service duration
           <select name="service_duration" required defaultValue="">
             <option value="">Hours needed</option>
-            <option>Point-to-point / transfer</option>
-            <option>2 hours</option>
-            <option>3 hours</option>
-            <option>4 hours</option>
-            <option>5 hours</option>
-            <option>6+ hours</option>
+            {Array.from({ length: 24 }, (_, index) => index + 1).map((hours) => (
+              <option key={hours}>{hours} {hours === 1 ? 'hour' : 'hours'}</option>
+            ))}
+            <option>24+ hours</option>
             <option>Not sure yet</option>
           </select>
         </label>
@@ -1954,7 +1960,17 @@ function BookingForm() {
       <label>Pickup location<input ref={pickupRef} name="pickup_location" required autoComplete="street-address" placeholder="Address, venue, hotel, airport, or city" /></label>
       <label>Drop-off location<input ref={destinationRef} name="dropoff_location" required autoComplete="street-address" placeholder="Drop-off address, venue, airport, or city" /></label>
       {returnTripRequired === 'Yes' && (
-        <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+        <div className="form-row two">
+          <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+          <label>Driver standby needed
+            <select name="driver_standby_required" required defaultValue="">
+              <option value="">Select option</option>
+              <option>No - pickup at a later scheduled time</option>
+              <option>Yes - keep driver and vehicle on standby</option>
+              <option>Not sure yet</option>
+            </select>
+          </label>
+        </div>
       )}
       <div className="form-row two">
         <label>Vehicle preference<select name="vehicle_preference" defaultValue=""><option value="">No preference yet</option>{fleet.map((item) => <option key={item.slug}>{item.name}</option>)}</select></label>
