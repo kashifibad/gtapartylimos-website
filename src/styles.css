@@ -1287,6 +1287,65 @@ textarea:focus {
   background: rgba(255, 255, 255, 0.025);
 }
 
+.coverage-layout {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 46px;
+  align-items: center;
+}
+
+.coverage-layout p:not(.eyebrow) {
+  margin-top: 18px;
+  color: var(--muted);
+}
+
+.coverage-panel {
+  border: 1px solid rgba(216, 181, 109, 0.18);
+  border-radius: 8px;
+  padding: 20px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(16, 17, 20, 0.72);
+  box-shadow: var(--shadow);
+}
+
+.coverage-panel .route-line {
+  position: static;
+  z-index: auto;
+  width: 100%;
+  height: 1px;
+  margin-bottom: 18px;
+  transform: none;
+  opacity: 0.75;
+}
+
+.coverage-tags {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.coverage-tags span {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 11px;
+  color: rgba(247, 241, 229, 0.82);
+  background: rgba(255, 255, 255, 0.045);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.coverage-tags svg {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  color: var(--gold-2);
+}
+
 .area-tags {
   display: flex;
   flex-wrap: wrap;
@@ -1933,8 +1992,8 @@ details p {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.45fr 0.95fr 0.95fr 0.85fr 0.95fr;
-  gap: 38px;
+  grid-template-columns: 1.3fr 0.75fr 0.75fr 1.25fr 0.72fr 0.86fr;
+  gap: 28px;
 }
 
 .footer-grid p {
@@ -1950,6 +2009,32 @@ details p {
 
 .footer-grid h3 {
   margin-bottom: 8px;
+}
+
+.footer-coverage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-coverage span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: rgba(247, 241, 229, 0.64);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.footer-coverage svg {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  color: var(--gold-2);
 }
 
 .footer-bottom {
@@ -2117,7 +2202,8 @@ summary,
   .about-grid,
   .contact-grid,
   .booking-layout,
-  .service-body {
+  .service-body,
+  .coverage-layout {
     grid-template-columns: 1fr;
   }
 
@@ -2148,6 +2234,10 @@ summary,
   }
 
   .trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coverage-tags {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -2271,6 +2361,7 @@ summary,
   .testimonial-grid,
   .faq-grid,
   .gallery-page-grid,
+  .coverage-tags,
   .trust-grid {
     grid-template-columns: 1fr;
   }

@@ -323,24 +323,88 @@ const contact = {
 };
 
 const areas = [
-  'Toronto',
-  'Mississauga',
-  'Brampton',
-  'Vaughan',
-  'Markham',
-  'Richmond Hill',
-  'Oakville',
-  'Burlington',
-  'Etobicoke',
-  'Scarborough',
-  'North York',
-  'Ajax',
-  'Pickering',
-  'Whitby',
-  'Oshawa',
-  'Milton',
-  'Hamilton',
-  'King City',
+  'Toronto Limo Service',
+  'Niagara Falls Wine Tours',
+  'Mississauga Party Limos',
+  'Brampton Party Limos',
+  'Hamilton Limo Service',
+  'Kitchener Party Limos',
+  'Thornhill Limo Rentals',
+  'Scarborough Party Limos',
+  'Pickering Limo Service',
+  'Ajax Party Limos',
+  'Whitby Limo Service',
+  'Etobicoke Limo Rentals',
+  'Huntsville Limo Service',
+  'Muskoka Event Transportation',
+  'Gravenhurst Limo Rentals',
+  'St. Catharines Party Limos',
+  'Chatham Limo Service',
+  'Windsor Party Limos',
+  'Sarnia Limo Service',
+  'Midland Party Limos',
+  'Vaughan Limo Rentals',
+  'Maple Limo Service',
+  'Woodbridge Party Limos',
+  'Waterloo Limo Rentals',
+  'Port Hope Limo Service',
+  'Milton Party Limos',
+  'Bracebridge Limo Service',
+  'Bala Event Transportation',
+  'Port Severn Limo Rentals',
+  'Barrie Party Limos',
+  'Georgina Limo Service',
+  'Parry Sound Event Transportation',
+  'Greater Sudbury Party Limos',
+  'Peterborough Party Limos',
+  'Aurora Limo Rentals',
+  'Oshawa Party Limos',
+  'Oakville Limo Rentals',
+  'Cambridge Limo Rentals',
+  'East York Limo Service',
+  'Markham Party Limos',
+  'Georgian Bay Event Transportation',
+  'Wasaga Beach Party Limos',
+  'Collingwood Limo Rentals',
+  'Kingston Party Limos',
+  'Cobourg Limo Service',
+  'Belleville Party Limos',
+  'Bowmanville Party Limos',
+  'London Ontario Party Limos',
+  'Burlington Limo Rentals',
+  'Guelph Limo Service',
+  'North York Party Limos',
+  'Newmarket Limo Rentals',
+  'Stouffville Limo Rentals',
+  'Richmond Hill Party Limos',
+  'Blue Mountain Event Transportation',
+  'Innisfil Limo Service',
+  'Orillia Limo Rentals',
+];
+
+const homepageCoverageAreas = areas.slice(0, 32);
+const footerCoverageAreas = areas.slice(0, 18);
+
+const vehiclePreferenceOptions = [
+  'Shuttle Bus : 50-55 Passengers',
+  'Party Bus : 50 Passengers',
+  'Party Bus : 35 Passengers',
+  'Party Bus : 30 Passengers',
+  'Party Bus : 25 Passengers',
+  'Party Bus : 22 Passengers',
+  'Shuttle Bus : 28 Passengers',
+  'Party Bus : 14 Passenger',
+  'Shuttle Bus : 14 Passengers',
+  'Hummer H2 Limousine : 18 Passengers',
+  'Ford Expedition : 14 Passengers',
+  'Lincoln Navigator : 14 Passengers',
+  'Lincoln Mkt',
+  'Rolls Royce Ghost : 4 Passengers',
+  'Rolls Royce Phantom : 4 Passengers',
+  'Classic Bentley S1 : 3 Passengers',
+  'Cadillac Escalade Suv : 6 Passengers',
+  'Gmc Denali : 6 Passengers',
+  'Tesla Y : 3 Passengers',
 ];
 
 const fleet: FleetItem[] = [
@@ -1157,16 +1221,24 @@ function ChauffeurSection() {
 function AreaSection({ navigate }: { navigate: (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => void }) {
   return (
     <section className="section area-section">
-      <div className="container">
-        <SectionIntro
-          eyebrow="Toronto and GTA coverage"
-          title="From downtown Toronto to every major GTA event route."
-          text="Whether the pickup is a condo, hotel, banquet hall, airport terminal, restaurant, school, office, or private residence, we help build the right route."
-        />
-        <div className="area-tags">
-          {areas.map((area) => <span key={area}>{area}</span>)}
+      <div className="container coverage-layout">
+        <div>
+          <p className="eyebrow">GTA Coverage</p>
+          <h2>From downtown hotels to suburban venues.</h2>
+          <p>
+            Request transportation for restaurants, clubs, banquet halls, airports, concert venues, homes, campuses,
+            offices, wine tours, cottage routes, and photo locations across the GTA and wider Ontario.
+          </p>
+          <SectionCta navigate={navigate} primary="/service-areas" primaryText="See Service Areas" secondary="/book-now" secondaryText="Check Availability" />
         </div>
-        <SectionCta navigate={navigate} primary="/service-areas" primaryText="See Service Areas" secondary="/book-now" secondaryText="Check Availability" />
+        <div className="coverage-panel">
+          <div className="route-line" aria-hidden="true" />
+          <div className="coverage-tags">
+            {homepageCoverageAreas.map((area) => (
+              <span key={area}><MapPin aria-hidden="true" /> {area}</span>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1850,7 +1922,7 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         <label>Vehicle preference
           <select name="vehicle_preference" defaultValue="">
             <option value="">No preference yet</option>
-            {fleet.map((item) => <option key={item.slug}>{item.name}</option>)}
+            {vehiclePreferenceOptions.map((option) => <option key={option}>{option}</option>)}
           </select>
         </label>
       </div>
@@ -1941,7 +2013,7 @@ function BookingForm() {
       </div>
       <div className="form-row two">
         <label>Number of passengers<input name="passengers" type="number" min="1" required inputMode="numeric" placeholder="Example: 12" /></label>
-        <label>Vehicle preference<select name="vehicle_preference" defaultValue=""><option value="">No preference yet</option>{fleet.map((item) => <option key={item.slug}>{item.name}</option>)}</select></label>
+        <label>Vehicle preference<select name="vehicle_preference" defaultValue=""><option value="">No preference yet</option>{vehiclePreferenceOptions.map((option) => <option key={option}>{option}</option>)}</select></label>
       </div>
       <div className="form-row two">
         <label>Pickup time<input type="time" name="pickup_time" required /></label>
@@ -2045,6 +2117,14 @@ function Footer({ navigate }: { navigate: (href: string) => (event: React.MouseE
           {['/fleet', '/service-areas', '/about', '/gallery', '/reviews', '/faq', '/contact'].map((href) => (
             <a key={href} href={href} onClick={navigate(href)}>{titleFromPath(href)}</a>
           ))}
+        </div>
+        <div>
+          <h3>GTA Coverage</h3>
+          <div className="footer-coverage">
+            {footerCoverageAreas.map((area) => (
+              <span key={area}><MapPin aria-hidden="true" /> {area}</span>
+            ))}
+          </div>
         </div>
         <div>
           <h3>Legal</h3>
