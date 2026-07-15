@@ -2119,14 +2119,6 @@ function Footer({ navigate }: { navigate: (href: string) => (event: React.MouseE
           ))}
         </div>
         <div>
-          <h3>GTA Coverage</h3>
-          <div className="footer-coverage">
-            {footerCoverageAreas.map((area) => (
-              <span key={area}><MapPin aria-hidden="true" /> {area}</span>
-            ))}
-          </div>
-        </div>
-        <div>
           <h3>Legal</h3>
           <a href="/terms-conditions" onClick={navigate('/terms-conditions')}>Terms & Conditions</a>
           <a href="/privacy-policy" onClick={navigate('/privacy-policy')}>Privacy Policy</a>
@@ -2136,6 +2128,14 @@ function Footer({ navigate }: { navigate: (href: string) => (event: React.MouseE
           <a href={contact.phoneHref}>{contact.phone}</a>
           <a href={contact.emailHref}>{contact.email}</a>
           <a className="button primary" href="/book-now" onClick={navigate('/book-now')}>Get Instant Quote</a>
+        </div>
+      </div>
+      <div className="container footer-coverage-row">
+        <h3>GTA Coverage</h3>
+        <div className="footer-coverage">
+          {footerCoverageAreas.map((area) => (
+            <span key={area}><MapPin aria-hidden="true" /> {area}</span>
+          ))}
         </div>
       </div>
       <div className="container footer-bottom">
