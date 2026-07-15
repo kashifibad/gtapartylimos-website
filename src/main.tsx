@@ -323,67 +323,63 @@ const contact = {
 };
 
 const areas = [
-  'Toronto Limo Service',
-  'Niagara Falls Wine Tours',
-  'Mississauga Party Limos',
-  'Brampton Party Limos',
-  'Hamilton Limo Service',
-  'Kitchener Party Limos',
-  'Thornhill Limo Rentals',
-  'Scarborough Party Limos',
-  'Pickering Limo Service',
-  'Ajax Party Limos',
-  'Whitby Limo Service',
-  'Etobicoke Limo Rentals',
-  'Huntsville Limo Service',
-  'Muskoka Event Transportation',
-  'Gravenhurst Limo Rentals',
-  'St. Catharines Party Limos',
-  'Chatham Limo Service',
-  'Windsor Party Limos',
-  'Sarnia Limo Service',
-  'Midland Party Limos',
-  'Vaughan Limo Rentals',
-  'Maple Limo Service',
-  'Woodbridge Party Limos',
-  'Waterloo Limo Rentals',
-  'Port Hope Limo Service',
-  'Milton Party Limos',
-  'Bracebridge Limo Service',
-  'Bala Event Transportation',
-  'Port Severn Limo Rentals',
-  'Barrie Party Limos',
-  'Georgina Limo Service',
-  'Parry Sound Event Transportation',
-  'Greater Sudbury Party Limos',
-  'Peterborough Party Limos',
-  'Aurora Limo Rentals',
-  'Oshawa Party Limos',
-  'Oakville Limo Rentals',
-  'Cambridge Limo Rentals',
-  'East York Limo Service',
-  'Markham Party Limos',
-  'Georgian Bay Event Transportation',
-  'Wasaga Beach Party Limos',
-  'Collingwood Limo Rentals',
-  'Kingston Party Limos',
-  'Cobourg Limo Service',
-  'Belleville Party Limos',
-  'Bowmanville Party Limos',
-  'London Ontario Party Limos',
-  'Burlington Limo Rentals',
-  'Guelph Limo Service',
-  'North York Party Limos',
-  'Newmarket Limo Rentals',
-  'Stouffville Limo Rentals',
-  'Richmond Hill Party Limos',
-  'Blue Mountain Event Transportation',
-  'Innisfil Limo Service',
-  'Orillia Limo Rentals',
+  'Toronto',
+  'Mississauga',
+  'Brampton',
+  'Caledon',
+  'Bolton',
+  'Vaughan',
+  'Maple',
+  'Woodbridge',
+  'Markham',
+  'Richmond Hill',
+  'Thornhill',
+  'Aurora',
+  'Newmarket',
+  'Stouffville',
+  'North York',
+  'East York',
+  'Etobicoke',
+  'Scarborough',
+  'Pickering',
+  'Ajax',
+  'Whitby',
+  'Oshawa',
+  'Oakville',
+  'Burlington',
+  'Milton',
+  'Hamilton',
+  'Ancaster',
+  'Stoney Creek',
+  'Dundas',
+  'Waterdown',
+  'Guelph',
+  'Kitchener',
+  'Waterloo',
+  'Cambridge',
+  'Brantford',
+  'Paris',
+  'Caledonia',
+  'Hagersville',
+  'Cayuga',
+  'Dunnville',
+  'Simcoe',
+  'Delhi',
+  'Waterford',
+  'Port Dover',
+  'Vittoria',
+  'Barrie',
+  'Innisfil',
+  'Georgina',
+  'Niagara Falls',
+  'Niagara-on-the-Lake',
+  'St. Catharines',
+  'Welland',
+  'Grimsby',
 ];
 
-const homepageCoverageAreas = areas.slice(0, 32);
-const footerCoverageAreas = areas.slice(0, 18);
+const homepageCoverageAreas = areas;
+const footerCoverageAreas = areas;
 
 const vehiclePreferenceOptions = [
   'Shuttle Bus : 50-55 Passengers',
@@ -591,7 +587,7 @@ const faqs = [
   {
     question: 'Do you serve the entire GTA?',
     answer:
-      'Yes. GTA Party Limos serves Toronto, Mississauga, Brampton, Vaughan, Markham, Richmond Hill, Oakville, Burlington, Durham Region, and surrounding areas.',
+      'Yes. GTA Party Limos serves Toronto, Peel, York, Durham, Halton, Hamilton, Niagara, Waterloo Region, Brantford, Simcoe, Port Dover, Barrie, Innisfil, Georgina, and nearby communities within the refined service radius.',
   },
   {
     question: 'Can I book multiple stops?',
@@ -686,7 +682,7 @@ const faqs = [
   {
     question: 'What areas outside Toronto do you serve?',
     answer:
-      'Service is available across the GTA and surrounding communities, including Mississauga, Brampton, Vaughan, Markham, Richmond Hill, Oakville, Burlington, Durham Region, Hamilton, and nearby areas by request.',
+      'Service is available across Toronto and the GTA, plus nearby Southern Ontario areas such as Hamilton, Burlington, Oakville, Guelph, Kitchener, Waterloo, Cambridge, Brantford, Paris, Niagara Falls, Niagara-on-the-Lake, St. Catharines, Welland, and Grimsby.',
   },
   {
     question: 'Are the vehicles clean before pickup?',
@@ -1227,7 +1223,7 @@ function AreaSection({ navigate }: { navigate: (href: string) => (event: React.M
           <h2>From downtown hotels to suburban venues.</h2>
           <p>
             Request transportation for restaurants, clubs, banquet halls, airports, concert venues, homes, campuses,
-            offices, wine tours, cottage routes, and photo locations across the GTA and wider Ontario.
+            offices, wine tours, nearby Southern Ontario routes, and photo locations within the refined service radius.
           </p>
           <SectionCta navigate={navigate} primary="/service-areas" primaryText="See Service Areas" secondary="/book-now" secondaryText="Check Availability" />
         </div>
@@ -1506,8 +1502,8 @@ function ServiceAreasPage({ navigate }: { navigate: (href: string) => (event: Re
   return (
     <PageShell
       eyebrow="Service areas"
-      title="Luxury limo service across Toronto and the Greater Toronto Area."
-      text="We support point-to-point rides, hourly bookings, multi-stop event routes, airport transfers, weddings, proms, and VIP nights across the region."
+      title="Luxury limo service across Toronto, the GTA, and nearby Southern Ontario."
+      text="We support point-to-point rides, hourly bookings, multi-stop event routes, airport transfers, weddings, proms, and VIP nights within the refined service radius around Toronto Pearson Airport."
     >
       <div className="area-page-grid">
         {areas.map((area) => (
