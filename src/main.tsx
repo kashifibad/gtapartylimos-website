@@ -1855,8 +1855,8 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         </label>
       </div>
       <div className="form-row two">
-        <label>Pickup date<input type="date" name="pickup_date" required /></label>
         <label>Pickup time<input type="time" name="pickup_time" required /></label>
+        <label>Pickup date<input type="date" name="pickup_date" required /></label>
       </div>
       <div className="form-row two">
         <label>Pickup location<input ref={pickupRef} name="pickup_location" autoComplete="street-address" placeholder="Address, venue, hotel, or airport" /></label>
@@ -1884,8 +1884,8 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
       {returnTripRequired === 'Yes' && (
         <>
           <div className="form-row two">
-            <label>Return pickup date<input type="date" name="return_pickup_date" required /></label>
             <label>Return pickup time<input type="time" name="return_pickup_time" required /></label>
+            <label>Return pickup date<input type="date" name="return_pickup_date" required /></label>
           </div>
           <div className="form-row two">
             <label>Return pickup address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
@@ -1944,8 +1944,8 @@ function BookingForm() {
         <label>Vehicle preference<select name="vehicle_preference" defaultValue=""><option value="">No preference yet</option>{fleet.map((item) => <option key={item.slug}>{item.name}</option>)}</select></label>
       </div>
       <div className="form-row two">
-        <label>Pickup date<input type="date" name="pickup_date" required /></label>
         <label>Pickup time<input type="time" name="pickup_time" required /></label>
+        <label>Pickup date<input type="date" name="pickup_date" required /></label>
       </div>
       <div className="form-row two">
         <label>Pickup location<input ref={pickupRef} name="pickup_location" required autoComplete="street-address" placeholder="Address, venue, hotel, airport, or city" /></label>
@@ -1973,8 +1973,8 @@ function BookingForm() {
       {returnTripRequired === 'Yes' && (
         <>
           <div className="form-row two">
-            <label>Return pickup date<input type="date" name="return_pickup_date" required /></label>
             <label>Return pickup time<input type="time" name="return_pickup_time" required /></label>
+            <label>Return pickup date<input type="date" name="return_pickup_date" required /></label>
           </div>
           <div className="form-row two">
             <label>Return pickup address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
