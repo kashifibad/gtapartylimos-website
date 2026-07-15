@@ -1838,8 +1838,29 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
         </label>
       </div>
       <div className="form-row two">
+        <label className="passenger-label">Passengers
+          <span className="number-stepper">
+            <input className="passenger-input" type="number" name="passengers" min="1" inputMode="numeric" placeholder="Guest count" />
+            <span className="stepper-buttons">
+              <button type="button" aria-label="Increase passengers" onClick={(event) => adjustPassengers(event, 1)} />
+              <button type="button" aria-label="Decrease passengers" onClick={(event) => adjustPassengers(event, -1)} />
+            </span>
+          </span>
+        </label>
+        <label>Vehicle preference
+          <select name="vehicle_preference" defaultValue="">
+            <option value="">No preference yet</option>
+            {fleet.map((item) => <option key={item.slug}>{item.name}</option>)}
+          </select>
+        </label>
+      </div>
+      <div className="form-row two">
         <label>Pickup date<input type="date" name="pickup_date" required /></label>
         <label>Pickup time<input type="time" name="pickup_time" required /></label>
+      </div>
+      <div className="form-row two">
+        <label>Pickup location<input ref={pickupRef} name="pickup_location" autoComplete="street-address" placeholder="Address, venue, hotel, or airport" /></label>
+        <label>Drop-off location<input ref={destinationRef} name="dropoff_location" autoComplete="street-address" placeholder="Drop-off address, venue, or airport" /></label>
       </div>
       <div className="form-row two">
         <label>Service duration
@@ -1860,39 +1881,24 @@ function QuickQuoteForm({ compact = false, defaultEvent = '' }: { compact?: bool
           </select>
         </label>
       </div>
-      <div className="form-row two">
-        <label className="passenger-label">Passengers
-          <span className="number-stepper">
-            <input className="passenger-input" type="number" name="passengers" min="1" inputMode="numeric" placeholder="Guest count" />
-            <span className="stepper-buttons">
-              <button type="button" aria-label="Increase passengers" onClick={(event) => adjustPassengers(event, 1)} />
-              <button type="button" aria-label="Decrease passengers" onClick={(event) => adjustPassengers(event, -1)} />
-            </span>
-          </span>
-        </label>
-        <label>Vehicle preference
-          <select name="vehicle_preference" defaultValue="">
-            <option value="">No preference yet</option>
-            {fleet.map((item) => <option key={item.slug}>{item.name}</option>)}
-          </select>
-        </label>
-      </div>
-      <div className="form-row two">
-        <label>Pickup location<input ref={pickupRef} name="pickup_location" autoComplete="street-address" placeholder="Address, venue, hotel, or airport" /></label>
-        <label>Drop-off location<input ref={destinationRef} name="dropoff_location" autoComplete="street-address" placeholder="Drop-off address, venue, or airport" /></label>
-      </div>
       {returnTripRequired === 'Yes' && (
-        <div className="form-row two">
-          <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
-          <label>Driver standby needed
-            <select name="driver_standby_required" required defaultValue="">
-              <option value="">Select option</option>
-              <option>No - pickup at a later scheduled time</option>
-              <option>Yes - keep driver and vehicle on standby</option>
-              <option>Not sure yet</option>
-            </select>
-          </label>
-        </div>
+        <>
+          <div className="form-row two">
+            <label>Return pickup date<input type="date" name="return_pickup_date" required /></label>
+            <label>Return pickup time<input type="time" name="return_pickup_time" required /></label>
+          </div>
+          <div className="form-row two">
+            <label>Return pickup address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+            <label>Driver standby needed
+              <select name="driver_standby_required" required defaultValue="">
+                <option value="">Select option</option>
+                <option>No - scheduled return pickup only</option>
+                <option>Yes - keep driver and vehicle on standby</option>
+                <option>Not sure yet</option>
+              </select>
+            </label>
+          </div>
+        </>
       )}
       {!compact && <label>Message<textarea name="message" placeholder="Anything else we should know?" /></label>}
       <label className="consent">
@@ -1929,14 +1935,21 @@ function BookingForm() {
         <label>Name<input name="name" required placeholder="Your name" /></label>
         <label>Phone<input name="phone" required placeholder="Phone number" /></label>
       </div>
-      <label>Email<input type="email" name="email" required placeholder="Email address" /></label>
       <div className="form-row two">
+        <label>Email<input type="email" name="email" required placeholder="Email address" /></label>
         <label>Event type<select name="event_type" required defaultValue=""><option value="">Select event</option>{services.map((service) => <option key={service.slug}>{service.title}</option>)}</select></label>
-        <label>Pickup date<input type="date" name="pickup_date" required /></label>
       </div>
       <div className="form-row two">
-        <label>Pickup time<input type="time" name="pickup_time" required /></label>
         <label>Number of passengers<input name="passengers" type="number" min="1" required inputMode="numeric" placeholder="Example: 12" /></label>
+        <label>Vehicle preference<select name="vehicle_preference" defaultValue=""><option value="">No preference yet</option>{fleet.map((item) => <option key={item.slug}>{item.name}</option>)}</select></label>
+      </div>
+      <div className="form-row two">
+        <label>Pickup date<input type="date" name="pickup_date" required /></label>
+        <label>Pickup time<input type="time" name="pickup_time" required /></label>
+      </div>
+      <div className="form-row two">
+        <label>Pickup location<input ref={pickupRef} name="pickup_location" required autoComplete="street-address" placeholder="Address, venue, hotel, airport, or city" /></label>
+        <label>Drop-off location<input ref={destinationRef} name="dropoff_location" required autoComplete="street-address" placeholder="Drop-off address, venue, airport, or city" /></label>
       </div>
       <div className="form-row two">
         <label>Service duration
@@ -1957,25 +1970,26 @@ function BookingForm() {
           </select>
         </label>
       </div>
-      <label>Pickup location<input ref={pickupRef} name="pickup_location" required autoComplete="street-address" placeholder="Address, venue, hotel, airport, or city" /></label>
-      <label>Drop-off location<input ref={destinationRef} name="dropoff_location" required autoComplete="street-address" placeholder="Drop-off address, venue, airport, or city" /></label>
       {returnTripRequired === 'Yes' && (
-        <div className="form-row two">
-          <label>Return address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
-          <label>Driver standby needed
-            <select name="driver_standby_required" required defaultValue="">
-              <option value="">Select option</option>
-              <option>No - pickup at a later scheduled time</option>
-              <option>Yes - keep driver and vehicle on standby</option>
-              <option>Not sure yet</option>
-            </select>
-          </label>
-        </div>
+        <>
+          <div className="form-row two">
+            <label>Return pickup date<input type="date" name="return_pickup_date" required /></label>
+            <label>Return pickup time<input type="time" name="return_pickup_time" required /></label>
+          </div>
+          <div className="form-row two">
+            <label>Return pickup address<input ref={returnAddressRef} name="return_address" required autoComplete="street-address" placeholder="Return pickup address or final destination" /></label>
+            <label>Driver standby needed
+              <select name="driver_standby_required" required defaultValue="">
+                <option value="">Select option</option>
+                <option>No - scheduled return pickup only</option>
+                <option>Yes - keep driver and vehicle on standby</option>
+                <option>Not sure yet</option>
+              </select>
+            </label>
+          </div>
+        </>
       )}
-      <div className="form-row two">
-        <label>Vehicle preference<select name="vehicle_preference" defaultValue=""><option value="">No preference yet</option>{fleet.map((item) => <option key={item.slug}>{item.name}</option>)}</select></label>
-        <label>Occasion<input name="occasion" placeholder="Wedding, prom, birthday, airport, etc." /></label>
-      </div>
+      <label>Occasion<input name="occasion" placeholder="Wedding, prom, birthday, airport, etc." /></label>
       <label>Message<textarea name="message" placeholder="Anything else we should know?" /></label>
       <label className="consent">
         <input type="checkbox" name="consent" required />
