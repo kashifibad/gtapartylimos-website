@@ -335,55 +335,34 @@ const areas = [
   'Ajax Party Limos',
   'Whitby Limo Service',
   'Etobicoke Limo Rentals',
-  'Huntsville Limo Service',
-  'Muskoka Event Transportation',
-  'Gravenhurst Limo Rentals',
   'St. Catharines Party Limos',
-  'Chatham Limo Service',
-  'Windsor Party Limos',
-  'Sarnia Limo Service',
-  'Midland Party Limos',
   'Vaughan Limo Rentals',
   'Maple Limo Service',
   'Woodbridge Party Limos',
   'Waterloo Limo Rentals',
-  'Port Hope Limo Service',
   'Milton Party Limos',
-  'Bracebridge Limo Service',
-  'Bala Event Transportation',
-  'Port Severn Limo Rentals',
   'Barrie Party Limos',
   'Georgina Limo Service',
-  'Parry Sound Event Transportation',
-  'Greater Sudbury Party Limos',
-  'Peterborough Party Limos',
   'Aurora Limo Rentals',
   'Oshawa Party Limos',
   'Oakville Limo Rentals',
   'Cambridge Limo Rentals',
   'East York Limo Service',
   'Markham Party Limos',
-  'Georgian Bay Event Transportation',
-  'Wasaga Beach Party Limos',
-  'Collingwood Limo Rentals',
-  'Kingston Party Limos',
-  'Cobourg Limo Service',
-  'Belleville Party Limos',
-  'Bowmanville Party Limos',
-  'London Ontario Party Limos',
   'Burlington Limo Rentals',
   'Guelph Limo Service',
   'North York Party Limos',
   'Newmarket Limo Rentals',
   'Stouffville Limo Rentals',
   'Richmond Hill Party Limos',
-  'Blue Mountain Event Transportation',
   'Innisfil Limo Service',
-  'Orillia Limo Rentals',
+  'Brantford Limo Service',
+  'Simcoe Limo Service',
+  'Paris Limo Service',
 ];
 
-const homepageCoverageAreas = areas.slice(0, 32);
-const footerCoverageAreas = areas.slice(0, 18);
+const homepageCoverageAreas = areas;
+const footerCoverageAreas = [...areas.slice(0, 15), ...areas.slice(-3)];
 
 const vehiclePreferenceOptions = [
   'Shuttle Bus : 50-55 Passengers',
@@ -1227,7 +1206,7 @@ function AreaSection({ navigate }: { navigate: (href: string) => (event: React.M
           <h2>From downtown hotels to suburban venues.</h2>
           <p>
             Request transportation for restaurants, clubs, banquet halls, airports, concert venues, homes, campuses,
-            offices, wine tours, cottage routes, and photo locations across the GTA and wider Ontario.
+            offices, wine tours, nearby Southern Ontario routes, and photo locations across the GTA.
           </p>
           <SectionCta navigate={navigate} primary="/service-areas" primaryText="See Service Areas" secondary="/book-now" secondaryText="Check Availability" />
         </div>
