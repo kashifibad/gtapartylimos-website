@@ -1750,11 +1750,10 @@ function BrandMark() {
           </radialGradient>
         </defs>
         <circle cx="32" cy="32" r="22" fill={`url(#${compassGlow})`} />
-        <circle cx="32" cy="32" r="19" fill="none" stroke="#11100d" strokeWidth="4.4" />
-        <circle cx="32" cy="32" r="12" fill="none" stroke="#11100d" strokeOpacity="0.18" strokeWidth="2" />
-        <path d="M32 14.5l6 17.5 17.5 6-17.5 6-6 17.5-6-17.5-17.5-6 17.5-6 6-17.5Z" fill="#11100d" />
-        <path d="M32 22.5l3.1 9.5 9.4 3.1-9.4 3.2-3.1 9.2-3.1-9.2-9.4-3.2 9.4-3.1 3.1-9.5Z" fill="#d8b56d" opacity="0.5" />
-        <circle cx="32" cy="32" r="3.2" fill="#fff0b8" opacity="0.68" />
+        <circle cx="32" cy="32" r="18.2" fill="none" stroke="#11100d" strokeWidth="4.6" />
+        <path d="M32 12.8l3.7 15.4L51.2 32l-15.5 3.8L32 51.2l-3.7-15.4L12.8 32l15.5-3.8L32 12.8Z" fill="#11100d" />
+        <path d="M32 21.2l1.8 8.9 9 1.9-9 1.9-1.8 8.9-1.8-8.9-9-1.9 9-1.9 1.8-8.9Z" fill="#d8b56d" opacity="0.58" />
+        <circle cx="32" cy="32" r="4.3" fill="#8b6225" />
       </svg>
     </span>
   );
