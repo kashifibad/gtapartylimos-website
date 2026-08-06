@@ -183,6 +183,7 @@ svg {
   min-height: 42px;
   padding: 10px 15px;
   font-size: 0.86rem;
+  line-height: 1;
 }
 
 .text-link {
@@ -281,6 +282,8 @@ svg {
 
 .desktop-nav {
   display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
   align-items: center;
   justify-content: center;
   gap: 4px;
@@ -361,14 +364,21 @@ svg {
 
 .header-actions {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 10px;
+}
+
+.header-actions .button {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .icon-link,
 .menu-button,
 .close-button {
   display: grid;
+  flex: 0 0 44px;
   width: 44px;
   height: 44px;
   place-items: center;
@@ -2266,6 +2276,41 @@ summary,
 
   .footer-coverage {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1320px) and (min-width: 1081px) {
+  .nav-shell {
+    gap: 14px;
+  }
+
+  .desktop-nav {
+    gap: 2px;
+  }
+
+  .desktop-nav > a,
+  .nav-dropdown > button {
+    min-height: 40px;
+    padding: 0 9px;
+    font-size: 0.84rem;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .icon-link,
+  .menu-button,
+  .close-button {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .header-actions .button.small {
+    min-height: 40px;
+    padding: 9px 12px;
+    font-size: 0.8rem;
   }
 }
 
