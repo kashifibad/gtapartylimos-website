@@ -1,0 +1,11 @@
+# GTA Party Limos static SEO repair
+
+The previous route build copied the empty Vite shell to all 21 public URLs. Growth's actual HTTP audit therefore found identical initial titles/descriptions, no canonical link and no H1 before JavaScript, even though the browser displayed the website normally.
+
+The build now renders the existing React pages into those same static files, with one canonical, route title, description and verified Organization contact metadata. The browser hydrates that HTML and keeps the existing interactive handlers. No server hosting or new dependency is required. The current visual components, forms, legal copy, imagery and public provider configuration remain unchanged. Existing unverified testimonial/rating copy is a separate client review item; it is not added to structured data. No residential address, hours or aggregate rating is emitted in the Organization schema.
+
+Validation: production client and build-time renderer compile; all 21 initial HTTP responses and browser pages pass; zero hydration errors; SPA navigation updates metadata; a local booking-field input remains interactive; mobile Contact has no horizontal overflow. All external browser requests were blocked before dispatch and no form was submitted. The exact visible component/form source and prior public configuration content were compared against released `f43633b`, allowing only checkout line endings. Existing 21-URL sitemap, robots, Growth ownership and Google ownership proofs still pass the installation checks.
+
+Evidence is in `outputs/seo-prerender/receipt.json` with desktop and mobile screenshots. Build: `npm run build`; checks: `node scripts/check-prerender.mjs` and `node scripts/check-growth-static.mjs`. The installed Chrome channel is used with a new isolated profile for local browser tests.
+
+The renderer follows React's documented [renderToString](https://react.dev/reference/react-dom/server/renderToString) and [hydrateRoot](https://react.dev/reference/react-dom/client/hydrateRoot) contract. Publication must be reconciled against the current GitHub/Bolt source before one normal website update. Google crawling and indexing remain external outcomes; passing this technical check does not guarantee rankings.
