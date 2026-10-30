@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import {
   ArrowRight,
   BadgeCheck,
@@ -713,7 +713,7 @@ const gallery = [
   { src: '/assets/img/chauffeur-airport-v2.jpg', label: 'Corporate and airport service' },
 ];
 
-export const routeTitles: Record<string, string> = {
+const routeTitles: Record<string, string> = {
   '/': 'GTA Party Limos | Luxury Limo & Party Bus Rentals in Toronto',
   '/fleet': 'Fleet | GTA Party Limos',
   '/services': 'Services | GTA Party Limos',
@@ -732,31 +732,6 @@ services.forEach((service) => {
   routeTitles[`/${service.slug}`] = `${service.title} | GTA Party Limos`;
 });
 
-const pageDescriptions: Record<string, string> = {
-  '/': 'Limousine and group transportation for weddings, proms, airport transfers, corporate travel and celebrations in Toronto and the Greater Toronto Area.',
-  '/fleet': 'Explore GTA Party Limos vehicle options for your passenger count, occasion and route. Request availability and a quote before booking.',
-  '/services': 'Explore limousine, party limo, wedding, prom, airport and corporate transportation services across Toronto and the GTA.',
-  '/service-areas': 'Explore GTA Party Limos service areas across Toronto, the Greater Toronto Area and nearby Southern Ontario destinations.',
-  '/about': 'Learn about GTA Party Limos and its limousine and group transportation services in Toronto and the Greater Toronto Area.',
-  '/gallery': 'Browse the GTA Party Limos transportation gallery and discuss vehicle availability and requirements when requesting your quote.',
-  '/reviews': 'Read customer feedback presented by GTA Party Limos and learn about group transportation experiences in Toronto and the GTA.',
-  '/faq': 'Find answers about limousine quotes, vehicle selection, multiple stops, airport transfers and booking arrangements with GTA Party Limos.',
-  '/contact': 'Contact GTA Party Limos at 647-222-7300 or info@GTAPartyLimos.com to discuss your transportation plans and request a quote.',
-  '/book-now': 'Request a GTA Party Limos quote with your event date, passenger count, pickup, destination and preferred vehicle.',
-  '/terms-conditions': 'Read GTA Party Limos website terms and conditions. Confirm the specific transportation and cancellation terms before booking.',
-  '/privacy-policy': 'Read how GTA Party Limos handles website inquiries, contact information and privacy choices.',
-};
-
-export function routeMetadata(path: string) {
-  const service = services.find((item) => `/${item.slug}` === path);
-  return {
-    title: routeTitles[path] ?? 'Page not found | GTA Party Limos',
-    description: service?.summary ?? pageDescriptions[path] ?? 'The requested GTA Party Limos page was not found.',
-    canonical: `https://${contact.domain}${path === '/' ? '/' : path.replace(/\/$/, '') + '/'}`,
-    known: Object.prototype.hasOwnProperty.call(routeTitles, path),
-  };
-}
-
 const getAccessKey = () => window.GTA_PARTY_LIMOS_WEB3FORMS_ACCESS_KEY?.trim() ?? '';
 
 const normalizePath = () => {
@@ -770,8 +745,8 @@ const titleFromPath = (href: string) =>
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (character: string) => character.toUpperCase());
 
-export function App({ initialPath }: { initialPath?: string } = {}) {
-  const [path, setPath] = useState(() => initialPath ?? normalizePath());
+function App() {
+  const [path, setPath] = useState(normalizePath);
 
   useEffect(() => {
     const onPop = () => setPath(normalizePath());
@@ -780,19 +755,7 @@ export function App({ initialPath }: { initialPath?: string } = {}) {
   }, []);
 
   useEffect(() => {
-    const meta = routeMetadata(path);
-    document.title = meta.title;
-    const update = (selector: string, tag: string, attributes: Record<string, string>) => {
-      const node = document.querySelector(selector) ?? document.head.appendChild(document.createElement(tag));
-      for (const [name, value] of Object.entries(attributes)) node.setAttribute(name, value);
-    };
-    update('link[rel="canonical"]', 'link', { rel: 'canonical', href: meta.canonical });
-    update('meta[name="description"]', 'meta', { name: 'description', content: meta.description });
-    update('meta[property="og:title"]', 'meta', { property: 'og:title', content: meta.title });
-    update('meta[property="og:description"]', 'meta', { property: 'og:description', content: meta.description });
-    update('meta[property="og:url"]', 'meta', { property: 'og:url', content: meta.canonical });
-    if (!meta.known) update('meta[name="robots"]', 'meta', { name: 'robots', content: 'noindex, follow' });
-    else document.querySelector('meta[name="robots"]')?.remove();
+    document.title = routeTitles[path] ?? 'GTA Party Limos';
     if (window.location.hash) {
       window.setTimeout(() => {
         document.querySelector(window.location.hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2187,11 +2150,8 @@ function MobileCta({ navigate }: { navigate: (href: string) => (event: React.Mou
   );
 }
 
-// The static build imports this module without a browser. Hydration preserves
-// the generated page and attaches the same existing interactive form handlers.
-if (typeof document !== 'undefined') {
-  const root = document.getElementById('root')!;
-  const app = <React.StrictMode><App /></React.StrictMode>;
-  if (root.hasChildNodes() && root.getAttribute('data-prerender-path') === normalizePath()) hydrateRoot(root, app);
-  else createRoot(root).render(app);
-}
+createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
