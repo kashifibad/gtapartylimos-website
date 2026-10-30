@@ -1839,6 +1839,8 @@ function useWeb3Form(subject: string) {
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Before the existing request; keep this local to that submission.
+    const growthSubmissionId = crypto.randomUUID();
     const form = event.currentTarget;
     setStatus('loading');
     await populateDistanceFields(form);
@@ -1852,6 +1854,8 @@ function useWeb3Form(subject: string) {
       const response = await fetch(WEB3FORMS_ENDPOINT, { method: 'POST', body: formData });
       const data = (await response.json()) as { success?: boolean };
       if (!response.ok || !data.success) throw new Error('Form failed');
+      // Only after response.ok AND the provider confirms success.
+      window.dispatchEvent(new CustomEvent("growth:lead-accepted", { detail: { submissionId: growthSubmissionId } }));
       setStatus('success');
       form.reset();
     } catch {

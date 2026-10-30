@@ -13,6 +13,24 @@
     <script src="/web3forms-config.js"></script>
     <script src="/address-autocomplete-config.js"></script>
     <script data-growth-tracking="1" type="module" src="https://growth.servquik.com/site-tracking/cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9.js"></script>
+<script data-growth-canonical="1" type="module">
+const config={"website":"https://gtapartylimos.com","site_id":"cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9","routes":{"/":"https://gtapartylimos.com/","/fleet":"https://gtapartylimos.com/fleet/","/services":"https://gtapartylimos.com/services/","/limo-rentals":"https://gtapartylimos.com/limo-rentals/","/party-limos":"https://gtapartylimos.com/party-limos/","/wedding-limos":"https://gtapartylimos.com/wedding-limos/","/prom-limos":"https://gtapartylimos.com/prom-limos/","/bachelor-bachelorette-limos":"https://gtapartylimos.com/bachelor-bachelorette-limos/","/birthday-limos":"https://gtapartylimos.com/birthday-limos/","/corporate-transportation":"https://gtapartylimos.com/corporate-transportation/","/airport-transfers":"https://gtapartylimos.com/airport-transfers/","/nights-out-events":"https://gtapartylimos.com/nights-out-events/","/service-areas":"https://gtapartylimos.com/service-areas/","/about":"https://gtapartylimos.com/about/","/gallery":"https://gtapartylimos.com/gallery/","/reviews":"https://gtapartylimos.com/reviews/","/faq":"https://gtapartylimos.com/faq/","/contact":"https://gtapartylimos.com/contact/","/book-now":"https://gtapartylimos.com/book-now/","/terms-conditions":"https://gtapartylimos.com/terms-conditions/","/privacy-policy":"https://gtapartylimos.com/privacy-policy/"}};
+if(location.origin===config.website){
+ const owned='link[data-growth-canonical="'+config.site_id+'"]';
+ const apply=()=>{
+  const own=document.head.querySelector(owned),others=[...document.head.querySelectorAll('link[rel~="canonical" i]')].filter(el=>el!==own);
+  const url=config.routes[location.pathname.replace(/\/$/,'')||'/'];
+  const blocked=[...document.head.querySelectorAll('meta[name]')].some(el=>['robots','googlebot'].includes(el.name.toLowerCase())&&/noindex|none/i.test(el.content));
+  if(!url||blocked||others.length){own?.remove();return;}
+  const link=own||document.createElement('link');
+  if(!own){link.rel='canonical';link.setAttribute('data-growth-canonical',config.site_id);}
+  if(link.getAttribute('href')!==url)link.setAttribute('href',url);
+  if(!own)document.head.append(link);
+ };
+ apply();window.addEventListener('popstate',apply);window.addEventListener('growth:page-changed',apply);
+ new MutationObserver(apply).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['content','href','rel']});
+}
+</script>
   </head>
   <body>
     <div id="root"></div>
