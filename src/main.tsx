@@ -752,7 +752,7 @@ export function routeMetadata(path: string) {
   return {
     title: routeTitles[path] ?? 'Page not found | GTA Party Limos',
     description: service?.summary ?? pageDescriptions[path] ?? 'The requested GTA Party Limos page was not found.',
-    canonical: `https://${contact.domain}${path === '/' ? '/' : path}`,
+    canonical: `https://${contact.domain}${path === '/' ? '/' : path.replace(/\/$/, '') + '/'}`,
     known: Object.prototype.hasOwnProperty.call(routeTitles, path),
   };
 }
