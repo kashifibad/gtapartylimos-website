@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import './styles.css';
+import GrowthBlog from './growth-blog/GrowthBlog';
 
 type Icon = LucideIcon;
 
@@ -779,6 +780,7 @@ function App() {
     <>
       <Header navigate={navigate} activePath={path} />
       <main>
+        <GrowthBlog pathname={path}>
         {path === '/' && <HomePage navigate={navigate} />}
         {path === '/fleet' && <FleetPage navigate={navigate} />}
         {path === '/services' && <ServicesPage navigate={navigate} />}
@@ -793,6 +795,7 @@ function App() {
         {path === '/terms-conditions' && <TermsPage />}
         {path === '/privacy-policy' && <PrivacyPage />}
         {!routeTitles[path] && !service && <NotFoundPage navigate={navigate} />}
+        </GrowthBlog>
       </main>
       <Footer navigate={navigate} />
       <MobileCta navigate={navigate} />
@@ -2113,6 +2116,7 @@ function Footer({ navigate }: { navigate: (href: string) => (event: React.MouseE
         </div>
         <div>
           <h3>Company</h3>
+          <a href="/blog/">Articles</a>
           {['/fleet', '/service-areas', '/about', '/gallery', '/reviews', '/faq', '/contact'].map((href) => (
             <a key={href} href={href} onClick={navigate(href)}>{titleFromPath(href)}</a>
           ))}
