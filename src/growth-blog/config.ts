@@ -1,0 +1,1 @@
+export const config={"site_id":"cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9","website":"https://gtapartylimos.com","index":"/blog/","prefix":"/blog/","endpoint":"https://growth.servquik.com/api/content/cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9/articles","studio":"https://growth.servquik.com","page_size":9} as const;

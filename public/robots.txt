@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://gtapartylimos.com/sitemap.xml
+Sitemap: https://gtapartylimos.com/blog-sitemap.xml
