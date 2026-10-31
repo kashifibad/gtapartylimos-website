@@ -1,8 +1,0 @@
-{
-  "version": 1,
-  "site_id": "cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9",
-  "website": "https://gtapartylimos.com",
-  "article_path": "/blog/{slug}/",
-  "index_path": "/blog/",
-  "api_path": "/api/growth-articles"
-}

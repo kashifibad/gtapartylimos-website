@@ -1,7 +1,0 @@
-/api/growth-articles https://growth.servquik.com/api/content/cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9/articles 200!
-/api/growth-articles/* https://growth.servquik.com/api/content/cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9/articles/:splat 200!
-/blog-sitemap.xml https://growth.servquik.com/api/content/cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9/sitemap.xml 200!
-/blog/:slug/ https://growth.servquik.com/api/content/cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9/pages/:slug 200
-/blog/:slug https://growth.servquik.com/api/content/cbc8f422-c35f-41e2-89cd-26a2dd8bb2a9/pages/:slug 200
-/blog/ /blog/index.html 200
-/blog /blog/index.html 200
