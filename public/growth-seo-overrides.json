@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "marker": "growth-seo:08c91b35f36ea92b77fd73ef",
+  "website": "https://gtapartylimos.com",
+  "routes": {
+    "https://gtapartylimos.com/limo-rentals/": {
+      "canonical": "https://gtapartylimos.com/limo-rentals/",
+      "title": "Limo Rentals | GTA Party Limos",
+      "description": "GTA Party Limos provides premium limo, party bus, wedding, prom, corporate, airport, and VIP transportation across Toronto, the GTA, Hamilton, Niagara, Waterloo Region, Brantford, and nearby service areas."
+    }
+  }
+}

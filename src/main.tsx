@@ -1,4 +1,5 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { applyGrowthSeo } from './growth-seo/metadata.mjs';
 import { createRoot } from 'react-dom/client';
 import {
   ArrowRight,
@@ -757,13 +758,15 @@ function App() {
 
   useEffect(() => {
     document.title = routeTitles[path] ?? 'GTA Party Limos';
+    const cleanupGrowthSeo = applyGrowthSeo(path);
     if (window.location.hash) {
       window.setTimeout(() => {
         document.querySelector(window.location.hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 0);
-      return;
+      return cleanupGrowthSeo;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    return cleanupGrowthSeo;
   }, [path]);
 
   const navigate = (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
